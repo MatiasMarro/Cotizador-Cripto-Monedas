@@ -74,9 +74,9 @@ const Formulario = ({setMonedas}) => {
             onSubmit={handleSubmit}
         >
 
-
-            <SelectMonedas />
             <SelectCriptoMoneda />
+            <SelectMonedas />
+            
             
             <InputSubmit 
                 type="submit"
