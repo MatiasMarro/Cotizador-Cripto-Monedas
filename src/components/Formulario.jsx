@@ -1,5 +1,6 @@
-import  { useEffect } from 'react';
+import  { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import Error from './Error';
 import useSelectMonedas from '../hooks/useSelectMonedas';
 import { monedas } from '../data/monedas';
 
@@ -22,36 +23,66 @@ const InputSubmit = styled.input`
         cursor: pointer;
     }
 `
-const Formulario = () => {
+const Formulario = ({setMonedas}) => {
 
-
+    const [ criptos, setCriptos ] = useState([])
+    const [ error, setError ] = useState(false)
 
     const [ moneda, SelectMonedas ] = useSelectMonedas('Elige tu moneda', monedas)
+    const [ criptomoneda, SelectCriptoMoneda ] = useSelectMonedas('Elige tu criptomoneda', criptos)
 
     useEffect(() => {
         const consultarAPI = async () =>{
             const url = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD"
             const respuesta = await fetch(url)
             const resultado = await respuesta.json()
-            console.log(resultado.Data)
+            
+
+            const arrayCritpos = resultado.Data.map( cripto => {
+
+                const objeto={
+                    id: cripto.CoinInfo.Name,
+                    nombre: cripto.CoinInfo.FullName
+                }
+
+                return objeto
+            } )
+            setCriptos(arrayCritpos)
         }
 
         consultarAPI()
     }, [])
     
 
-    
+    const handleSubmit = e => {
+        e.preventDefault()
+        if([moneda, criptomoneda].includes('')){
+            setError(true)
+            return 
+        }
+        setError(false)
+        setMonedas({
+            moneda,
+            criptomoneda
+        })
+    }
     
   return (
-        <form>
+        <>
+        {error && <Error>Todos los campos son obligatorios</Error>}
+        <form 
+            onSubmit={handleSubmit}
+        >
 
 
             <SelectMonedas />
+            <SelectCriptoMoneda />
             
             <InputSubmit 
                 type="submit"
                 value="Calcular" />
-        </form>);
+        </form>
+        </>);
 };
 
 export default Formulario;
