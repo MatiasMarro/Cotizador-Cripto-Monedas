@@ -9,3 +9,4 @@ Simple application to quote cryptocurrencies in real time
   <li>Finally run in terminal <code>npm run dev</code></li>
 </ul>
 ![alt text](https://raw.githubusercontent.com/MatiasMarro/Cotizador-Cripto-Monedas/main/Cotizador-Cripto.png)
+<img src="https://raw.githubusercontent.com/MatiasMarro/Cotizador-Cripto-Monedas/main/Cotizador-Cripto.png" alt="cripto">
